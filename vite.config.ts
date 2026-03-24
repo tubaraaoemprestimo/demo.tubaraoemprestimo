@@ -60,4 +60,4 @@ export default defineConfig(({ mode }) => {
     }
   };
 });
-// Force Vercel deploy 1773866248
+// Force Vercel rebuild: 2026-03-24T13:34:47
