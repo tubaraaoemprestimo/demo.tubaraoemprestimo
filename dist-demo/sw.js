@@ -5,7 +5,7 @@
  * ============================================
  */
 
-const CACHE_VERSION = 'v8';
+const CACHE_VERSION = 'v9';
 const CACHE_STATIC = `tubarao-static-${CACHE_VERSION}`;
 const CACHE_DYNAMIC = `tubarao-dynamic-${CACHE_VERSION}`;
 const CACHE_IMAGES = `tubarao-images-${CACHE_VERSION}`;
@@ -199,6 +199,14 @@ self.addEventListener('fetch', (event) => {
 
   // Ignora chrome-extension e outros protocolos
   if (!url.protocol.startsWith('http')) {
+    return;
+  }
+
+  // Em modo DEMO (Vercel demo) — nunca servir JS do cache, sempre network
+  // Evita que bundle antigo seja servido após redeploy
+  const isDemoHost = self.location.hostname.includes('demo') || self.location.hostname.includes('vercel');
+  if (isDemoHost && /\.js$/.test(url.pathname)) {
+    event.respondWith(networkFirst(request));
     return;
   }
 
