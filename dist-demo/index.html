@@ -118,6 +118,22 @@
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', async () => {
         try {
+          // DEMO MODE: Force unregister old SW to clear stale cache
+          const isDemoHost = window.location.hostname.includes('demo') || window.location.hostname.includes('vercel');
+          if (isDemoHost) {
+            const registrations = await navigator.serviceWorker.getRegistrations();
+            for (const reg of registrations) {
+              await reg.unregister();
+              console.log('[DEMO] Unregistered old SW:', reg.scope);
+            }
+            // Clear all caches
+            const cacheNames = await caches.keys();
+            for (const name of cacheNames) {
+              await caches.delete(name);
+              console.log('[DEMO] Deleted cache:', name);
+            }
+          }
+
           // Register main SW
           const swReg = await navigator.serviceWorker.register('/sw.js', { scope: '/' });
           console.log('[PWA] Service Worker registered:', swReg.scope);
