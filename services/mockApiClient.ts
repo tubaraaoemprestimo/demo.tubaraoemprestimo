@@ -471,6 +471,28 @@ async function handleRequest(method: string, url: string, body?: any): Promise<a
     return { success: true };
   }
 
+  // ── THEME SETTINGS ──────────────────────────────────────────────────────────
+
+  if (method === 'GET' && match(url, /\/settings\/theme/)) {
+    return {
+      primaryColor: '#D4AF37',
+      secondaryColor: '#1a1a1a',
+      accentColor: '#10b981',
+      dangerColor: '#ef4444',
+      warningColor: '#f59e0b',
+      successColor: '#22c55e',
+      backgroundColor: '#000000',
+      cardColor: '#18181b',
+      textColor: '#ffffff',
+      primary_color: '#D4AF37',
+      secondary_color: '#1a1a1a',
+    };
+  }
+
+  if (method === 'PUT' && match(url, /\/settings\/theme/)) {
+    return { success: true };
+  }
+
   // ── PACKAGES — suporta ambos os paths ───────────────────────────────────────
 
   if (method === 'GET' && (path(url) === '/packages' || path(url) === '/settings/packages')) {

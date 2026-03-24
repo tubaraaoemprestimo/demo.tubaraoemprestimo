@@ -8,6 +8,13 @@ export default defineConfig(({ mode }) => {
     server: {
       port: 3000,
       host: '0.0.0.0',
+      strictPort: false,
+      // Permite acesso por qualquer hostname/porta (proxy, tunnels, portas diferentes)
+      allowedHosts: 'all',
+      hmr: {
+        // Sem clientPort definido: usa a porta atual do browser automaticamente
+        clientPort: undefined,
+      },
     },
     plugins: [react()],
     define: {
